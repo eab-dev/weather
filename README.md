@@ -24,8 +24,8 @@ The [original version](http://projects.ez.no/weather) requires eZ Publish 3.
 2. Enable extension in Admin interface. Setup->Extensions
 3. If you want to create and embed content objects of class `weather`, install the supplied package:
 
-    php ./ezpm.php import extension/weather/packages/weather.ezpkg
-    php ./ezpm.php install weather
+        php ./ezpm.php import extension/weather/packages/weather.ezpkg
+        php ./ezpm.php install weather
 
 ##Example template code:
 
