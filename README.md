@@ -22,7 +22,15 @@ The [original version](http://projects.ez.no/weather) requires eZ Publish 3.
 
 1. Put weather extension in to your eZ publish extension directory.
 2. Enable extension in Admin interface. Setup->Extensions
+3. If you want to create and embed content objects of class `weather`, install the supplied package:
+
+    php ./ezpm.php import extension/weather/packages/weather.ezpkg
+    php ./ezpm.php install weather
 
 ##Example template code:
 
 Weather tool you can add using administration interface Design -> Toolbar management
+
+Or you can create and embed content objects of class `weather` in an XML attribute.
+The template `extension/weather/design/standard/override/templates/embed/weather.tpl`
+will be used to render the object.
