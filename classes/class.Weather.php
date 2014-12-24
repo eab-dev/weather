@@ -5,8 +5,6 @@ class Weather
 
     function getForecast( $locationCode, $unit )
     {
-        include_once( 'lib/ezxml/classes/ezxml.php' );
-
         $source = file_get_contents( 'http://xml.weather.yahoo.com/forecastrss?p=' . $locationCode . '&u=' . $unit );
 
         if ( !$source )
