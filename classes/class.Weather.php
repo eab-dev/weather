@@ -5,7 +5,7 @@ class Weather
 
     function getForecast( $locationCode, $unit )
     {
-        $source = file_get_contents( 'http://xml.weather.yahoo.com/forecastrss?p=' . $locationCode . '&u=' . $unit );
+        $source = file_get_contents( 'http://weather.yahooapis.com/forecastrss?w=' . $locationCode . '&u=' . $unit );
 
         if ( !$source )
             return false;
@@ -13,6 +13,7 @@ class Weather
         $xml = new eZXML();
         $dom =& $xml->domTree( $source );
         $root =& $dom->root();
+        $forecastCount = 0;
 
         $data = array();
 
@@ -33,14 +34,29 @@ class Weather
                     {
                         $data[$subitem->Name] = $subitem->Children[0]->content();
 
-                        if ( preg_match( "/\<img [^>]* \/\>/", $subitem->Children[0]->content(), $matches ) )
-                        $data['image'] = $matches[0];
+                        if ( preg_match( "/\<img [^>]*\/\>/", $subitem->Children[0]->content(), $matches ) )
+                            $data['image'] = $matches[0];
                     }
-                    if ( $subitem->attributeCount() > 0 )
+
+                    if ( $subitem->Name == 'forecast' )
                     {
-                        foreach ( $subitem->Attributes as $attribute )
+                        $forecastCount++;
+                        if ( $subitem->attributeCount() > 0 )
                         {
-                            $data[$subitem->Name][$attribute->Name] = $attribute->content();
+                            foreach ( $subitem->Attributes as $attribute)
+                            {
+                                $data[$subitem->Name][$forecastCount][$attribute->Name] = $attribute->content();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ( $subitem->attributeCount() > 0 )
+                        {
+                            foreach ( $subitem->Attributes as $attribute )
+                            {
+                                $data[$subitem->Name][$attribute->Name] = $attribute->content();
+                            }
                         }
                     }
                 }
